@@ -1,0 +1,55 @@
+{% assign link = link | default: blank %}
+
+{% if link != blank %}
+  {% assign collection_item = collections[link.handle] %}
+{% endif %}
+
+{% assign collection_image = collection_item.image %}
+
+{% unless collection_item.image %}
+  {% assign collection_image = collection_item.products.first.featured_media.preview_image %}
+{% endunless %}
+
+{% assign lazy = false %}
+{% if collection_image %}
+  {% assign lazy = true %}
+{% endif %}
+
+<article
+  class="collection-list-item"
+  {%
+    render 'rimg',
+    img: collection_image,
+    size: '1024x1024',
+    crop: 'center',
+    background: true,
+    lazy: lazy
+  %}
+>
+
+  <a class="mobile-collection-image" href="{{ collection_item.url }}">
+    {%
+      render 'rimg',
+      img: collection_image,
+      alt: collection_item.title,
+      size: '1024x1024',
+      crop: 'center',
+      lazy: lazy
+    %}
+  </a>
+
+  <a class="collection-link" href="{{ collection_item.url }}">
+
+    <div class="collection-details">
+      <h1>{{ collection_item.title }}</h1>
+
+      {% if collection_item.description.size != blank and section.settings.show_description %}
+      <div class="rte">
+        <p>{{ collection_item.description | strip_html | truncate: 100 }}</p>
+      </div>
+      {% endif %}
+    </div>
+
+  </a>
+
+</article>

@@ -1,0 +1,21 @@
+<li class="{% if link.links != blank %}has-dropdown{% endif %}">
+  <a href="{{ link.url }}"{% if link.links != blank %} aria-haspopup{% endif %}>
+    {{ link.title }}
+
+    {% if link.links != blank %}
+      <div class="dropdown-toggle" tabIndex="0" role="button" aria-controls="navigation-{{ link.handle }}" aria-expanded="false">
+        {% render 'icon-plus' %}
+      </div>
+    {% endif %}
+  </a>
+
+  {% if link.links != blank %}
+    <ul class="dropdown-third-tier">
+      {% for link in link.links %}
+        <li>
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</li>
